@@ -13,7 +13,39 @@ You are a senior software architect expert in C# and .NET, specialized in design
 - **[Responsibilities](./docs/llm/common/core-responsibilities.md)** - Primary duties and technical focus
 - **[Core Rules and Constraints of AI Agent](./docs/llm/system-microservice.md)** - system prompt for the agent
 - **[Structure of Current repository](./readme.md)** - Structure of current repository
-- **[General Project Rules](./docs/llm/onion/projectRules.md)** - generic rules to be applied to projects or solutions
+
+### Architecture
+
+The project strictly follows **Onion Architecture** patterns with the core principle being the **Dependency Rule**.
+
+- **[Onion Architecture Overview](./docs/llm/onion-architecture.md)** - Rules and best practices about Onion Architecture
+- **[Domain Layer Guidelines](./docs/llm/onion/domain-layer.md)** - Rules and best practices to write a domain component
+- **[Application Layer Guidelines](./docs/llm/onion/application-layer.md)** - Rules and best practices to write the application assembly
+- **[Infrastructure Layer Guidelines](./docs/llm/onion/infrastructure-layer.md)** - Rules and best practices to write an infrastructure component
+- **[Other Projects Guidelines](./docs/llm/onion/other-projects.md)** - Rules and best practices to write other projects stored in this repository
+
+
+### Dependency Validation Rules
+
+**Domain Project:**
+
+- ✅ No project references allowed
+- ✅ Only abstraction packages (Microsoft.Extensions.DependencyInjection.Abstractions)
+- ❌ No Entity Framework references
+- ❌ No ASP.NET Core references
+
+**Application Project:**
+
+- ✅ Reference to Domain project only
+- ✅ Application-specific packages (MediatR, FluentValidation, AutoMapper)
+- ❌ No Infrastructure project reference
+- ❌ No database-specific packages
+
+**Infrastructure Project:**
+
+- ✅ References to both Domain and Application projects
+- ✅ External service packages
+- ✅ Database and caching packages
 
 ### Implementation
 

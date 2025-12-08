@@ -1,6 +1,7 @@
 # Repository Description
 
-Put here the description of the repository
+This repository contains the source fode of "FantaTournament", a web site to play with FIFA World Cup or UEFA Euro Cup.
+the goal is playing with match forecast and guess the best results of each matches of the tournament.
 
 ## Technology Stack
 
@@ -12,7 +13,7 @@ Put here the description of the repository
 
 ## Repository Structure
 
-this repository has the following structure:
+The project strictly follows **Onion Architecture** patterns with the core principle being the **Dependency Rule**. This is the the source code structure:
 
 ```txt
 Repository/
@@ -20,22 +21,14 @@ Repository/
 |-- IaC/
 |-- scripts/
 |-- src/
-|   |-- Domain/
-|   |   |-- Umbrella.Authentication.Application/
-|   |   |   |-- Umbrella.Authentication.Application.csproj
-|   |   |-- Umbrella.Authentication.Domain/
-|   |   |   |-- Umbrella.Authentication.Domain.csproj
-|   |   |-- Umbrella.Authentication.Infrastructure/
-|   |   |   |-- Umbrella.Authentication.Infrastructure.csproj
-|   |-- Infrastructure/
-|   |   |-- Umbrella.Infrastructure
-|   |   |   |-- Umbrella.Infrastructure.csproj
-|   |-- WebApi/
-|   |   |-- Umbrella.Domain.WebApi/
-|   |   |   |-- Umbrella.Domain.WebApi.csproj
-|   |-- Clients/
-|       |-- Umbrella.Domain.WebApi.Client/
-|           |-- Umbrella.Domain.WebApi.Client.csproj
+|   |-- FantaTournament.Application/
+|   |   |-- FantaTournament.Application.csproj
+|   |-- FantaTournament.Domain/
+|   |   |-- FantaTournament.Domain.csproj
+|   |-- FantaTournament.Infrastructure/
+|   |   |-- FantaTournament.Infrastructure.csproj
+|   |-- Umbrella.Core/
+|   |   |-- Umbrella.Core.csproj
 ```
 
 it is divided into documentation (docs folder), script (scripts folder) and Source code (src folder).
@@ -59,7 +52,5 @@ this folder contains all required powershell scripts that are useful for the rep
 
 inside src folder, the code is organized in the following way:
 
-- Domain: it contains the business logic (aka: the domain library), the application layer and infrastructure library for the specific-domain-related concepts, like persistence.
-- Infrastructure: it contains all needed libraries related to cross topic and not to business logic.
-- WebApi: it contains the source code fro REST api to provide a port for the domain
-- Clients: if needed, it contains the clients for Web Api.
+- Domain / Application  / Infrastructure: it contains the business logic (aka: the domain library), the application layer and infrastructure library for the specific-domain-related concepts, like persistence.
+- COre: it contains shared objects and capabilities

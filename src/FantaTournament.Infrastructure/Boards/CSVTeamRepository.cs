@@ -1,5 +1,6 @@
 
 using FantaTournament.Domain.Boards;
+using FantaTournament.Domain.Boards.Abstractions;
 using Umbrella.Core;
 
 namespace FantaTournament.Infrastructure.Boards

@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Umbrella.Core\Umbrella.Core.csproj" />
     <ProjectReference Include="..\FantaTournament.Domain\FantaTournament.Domain.csproj" />
+    <ProjectReference Include="..\FantaTournament.Application\FantaTournament.Application.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

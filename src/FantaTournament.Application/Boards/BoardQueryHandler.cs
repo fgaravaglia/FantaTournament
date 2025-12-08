@@ -4,23 +4,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using FantaTournament.Application.Boards.Models;
 using FantaTournament.Domain.Boards;
+using FantaTournament.Domain.Boards.Abstractions;
 using Umbrella.Core;
+using Umbrella.Mapper;
 
 namespace FantaTournament.Application.Boards
 {
+    /// <summary>
+    /// Implementation of query handlers for Board related operations
+    /// </summary>
     internal class BoardQueryHandler : IBoardQueryHandler
     {
         #region Fields
 
         IMatchRepository _MatchRepository;
         ITeamRepository _TeamRepository;
-
+        IMapperRegistry _MapperRegistry;
         #endregion
 
-        public BoardQueryHandler(IMatchRepository matchRepository, ITeamRepository teamRepository)
+        public BoardQueryHandler(IMatchRepository matchRepository,
+            ITeamRepository teamRepository,
+            IMapperRegistry mapperRegistry)
         {
             _MatchRepository = matchRepository ?? throw new ArgumentNullException(nameof(matchRepository));
             _TeamRepository = teamRepository ?? throw new ArgumentNullException(nameof(teamRepository));
+            _MapperRegistry = mapperRegistry ?? throw new ArgumentNullException(nameof(mapperRegistry));
         }
 
         /// <summary>
@@ -37,7 +45,9 @@ namespace FantaTournament.Application.Boards
             if (!teamsResult.Succeeded)
                 return Result<IEnumerable<MatchDTO>>.Failure(teamsResult.Errors);
 
-            // fill display name
+            // fill display name then map to DTOs
+            var mapper = this._MapperRegistry.GetMapper<Domain.Boards.Match, MatchDTO>();
+            List<MatchDTO> matches = [];
             foreach (var m in (matchesResult.Data ?? []))
             {
                 var teamA = (teamsResult.Data ?? []).SingleOrDefault(x => x.Code.Equals(m.TeamA.Code, StringComparison.InvariantCultureIgnoreCase));
@@ -47,12 +57,13 @@ namespace FantaTournament.Application.Boards
                 if (teamB != null)
                     m.TeamB = teamB;
 
-                if (DateTime.UtcNow >= m.MatchDate && m.Status == MatchStatus.Planned.Code)
-                    m.Status = MatchStatus.Started.Code;
-            }
+                if (DateTime.UtcNow >= m.MatchDate && m.Status.Equals(MatchStatus.Planned))
+                    m.Status = MatchStatus.Started;
 
-            // then Remap on DTOs
-            List<MatchDTO> matches = [];
+                var matchDto = mapper?.Map(m);
+                if (matchDto != null)
+                    matches.Add(matchDto);
+            }
             return Result<IEnumerable<MatchDTO>>.Success(matches);
         }
         /// <summary>
@@ -68,6 +79,13 @@ namespace FantaTournament.Application.Boards
 
             // then Remap on DTOs
             List<TeamDTO> teams = [];
+            var mapper = this._MapperRegistry.GetMapper<Team, TeamDTO>();
+            teamsResult.Data?.ToList().ForEach(t =>
+            {
+                var teamDto = mapper?.Map(t);
+                if (teamDto != null)
+                    teams.Add(teamDto);
+            });
             return Result<IEnumerable<TeamDTO>>.Success(teams);
         }
         /// <summary>

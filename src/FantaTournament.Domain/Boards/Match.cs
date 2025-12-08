@@ -36,7 +36,7 @@ namespace FantaTournament.Domain.Boards
         ///<summary>
         /// Status of the match (Scheduled, Completed, etc)
         ///</summary>
-        public string Status { get; set; } = "TO_PLAY";
+        public MatchStatus Status { get; set; } = MatchStatus.Planned;
 
 
         #region IAuditableEntity Implementation

@@ -1,6 +1,6 @@
 using Umbrella.Core;
 
-namespace FantaTournament.Domain.Boards
+namespace FantaTournament.Domain.Boards.Abstractions
 {
     /// <summary>
     /// Abstraction for persistence on Team entity

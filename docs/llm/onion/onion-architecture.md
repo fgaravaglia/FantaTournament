@@ -110,39 +110,23 @@ Onion Architecture represents a revolutionary approach to software design that p
 
 The traditional layered application has many issues:
 
-```txt
-┌─────────────────────────────────────┐
-│           Presentation              │
-│                 ↓                   │
-├─────────────────────────────────────┤
-│            Business                 │ ← Depends on Data Access
-│                 ↓                   │
-├─────────────────────────────────────┤
-│           Data Access               │ ← Tightly coupled to database
-│                 ↓                   │
-├─────────────────────────────────────┤
-│             Database                │
-└─────────────────────────────────────┘
-
-Problems:
 ❌ Business logic depends on data access technology
 ❌ Difficult to test business rules in isolation
 ❌ Database schema drives domain model design
 ❌ Infrastructure changes affect business logic
-```
 
 The **Onion Architecture** solves some of them:
 
 ```txt
-                    ┌─────────────────────────────────┐
-                    │         Infrastructure         │ ← Implements abstractions
-                    │  ┌─────────────────────────────┐ │
-                    │  │        Application          │ ← Orchestrates use cases
-                    │  │  ┌─────────────────────────┐ │ │
-                    │  │  │        Domain           │ │ │ ← Pure business logic
-                    │  │  └─────────────────────────┘ │ │
-                    │  └─────────────────────────────┘ │
-                    └─────────────────────────────────┘
+┌──────────────────────────────────┐
+│         Infrastructure           │ ← Implements abstractions
+│  ┌─────────────────────────────┐ │
+│  │        Application          │ ← Orchestrates use cases
+│  │  ┌────────────────────────┐ │ │
+│  │  │        Domain          │ ← Pure business logic
+│  │  └────────────────────────┘ │ │
+│  └─────────────────────────────┘ │
+└──────────────────────────────────┘
 
 Dependency Flow:
 Infrastructure → Application → Domain
@@ -167,3 +151,15 @@ Benefits:
 - **Misconception: "Domain Should Be Anemic** - Reality: Domain should be rich with business logic.
 
 This comprehensive foundation establishes the theoretical and practical understanding necessary for successful Onion Architecture implementation. The principles outlined here serve as the bedrock for building maintainable, testable, and scalable enterprise applications.
+
+## 6. 🛠️ Esempio Pratico: Creazione di un Ordine
+
+Questo esempio illustra come un singolo caso d'uso attraversa i vari strati della Clean Architecture (Domain, Application, Infrastructure, Api).
+
+| Strato | Componente | Dettaglio Azione |
+| :--- | :--- | :--- |
+| **Domain**        | `IOrderRepository`    | **Definisce** il contratto: `Task AddAsync(Order order);` |
+| **Application**   | `CreateOrderCommand`  | Contiene i dati grezzi necessari per creare l'ordine (Input). |
+| **Application**   | `CreateOrderHandler`  | 1. Usa `ICustomerRepository` (Domain) per caricare il Cliente. 2. Crea una nuova istanza di **Order** (Domain). 3. Usa `IOrderRepository` (Domain) per persistere l'oggetto Order. |
+| **Infrastructure** | `EfOrderRepository`  | **Implementa** il contratto. Esegue `_dbContext.Orders.Add(order);` e `await _dbContext.SaveChangesAsync();` |
+| **Api**           | `OrdersController`    | Riceve la richiesta HTTP, invia il `CreateOrderCommand` al **MediatR** e ritorna una risposta HTTP 201 (`CreatedAtAction`). |

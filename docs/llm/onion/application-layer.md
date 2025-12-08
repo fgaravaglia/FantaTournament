@@ -1,47 +1,26 @@
 # Application Layer Project Setup
 
-## Project Creation and Configuration
+This document shows the guidelines to create an APplication Layer in the Onion Architecture.
+Main reference guidelines:
 
-```bash
-# Create Application project
-dotnet new classlib -n YourCompany.YourDomain.Application
-cd YourCompany.YourDomain.Application
-
-# Add Domain reference
-dotnet add reference ../YourCompany.YourDomain.Domain/YourCompany.YourDomain.Domain.csproj
-```
-
-## Application Project Configuration (.csproj)
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Domain reference -->
-    <ProjectReference Include="..\YourCompany.YourDomain.Domain\YourCompany.YourDomain.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- Application-specific packages -->
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-    <PackageReference Include="FluentValidation" Version="11.8.0" />
-    <PackageReference Include="MediatR" Version="12.2.0" />
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-  </ItemGroup>
-
-</Project>
-```
+- ✅ Reference to Domain project only
+- ✅ Application-specific packages (MediatR, FluentValidation, AutoMapper)
+- ❌ No Infrastructure project reference
+- ❌ No database-specific packages
 
 ## Application Layer Structure
+
+the Application layer organizes the code by area and then by components or Use Cases.
+considering an areas, let's see how the code is arranged on Board Example:
+
+```txt
+Application/
+├── Boards/
+│   ├── Models/
+│   │   ├── MatchDTO.cs
+│   │   ├── MatchResultDTO.cs
+│   │   ├── TeamDTO.cs
+```
 
 ```txt
 Application/
