@@ -17,7 +17,7 @@ namespace FantaTournament.Domain.Forecast.Entities
         /// <summary>
         /// Points obtained with the forecast
         /// </summary>
-        public double Points { get; set; }
+        public double Points { get; set; } = 0.0;
         /// <summary>
         /// Status of the calculation of the forecast points
         /// </summary>
@@ -31,6 +31,27 @@ namespace FantaTournament.Domain.Forecast.Entities
         /// </summary>
         public List<ForecastMatchCalculationDetail> CalculationDetails { get; set; } = [];
 
+        public Forecast()
+        {
+
+
+
+        }
+
+        /// <summary>
+        /// Sets the username for the forecast
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public Forecast SetUsername(string username)
+        {
+            if (String.IsNullOrEmpty(username))
+                throw new ArgumentNullException(nameof(username));
+            this.Username = username.Trim();
+            SetAsModified(this.Username);
+            return this;
+        }
         /// <summary>
         /// Sets a forecast for a specific match
         /// </summary>

@@ -35,5 +35,21 @@ namespace Umbrella.Mapper
                 .SingleOrDefault();
 
         }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <typeparam name="Tsource"></typeparam>
+        /// <typeparam name="Tdest"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="NUllReferenceException">Thrown if no mapper is found for the specified types.</exception>
+        public IMapper<Tsource, Tdest> GetRequiredMapper<Tsource, Tdest>()
+            where Tsource : class, new()
+            where Tdest : class, new()
+        {
+            var mapper = this.GetMapper<Tsource, Tdest>();
+            if (mapper == null)
+                throw new NullReferenceException($"No mapper found for types {typeof(Tsource)} and {typeof(Tdest)}");
+            return mapper;
+        }
     }
 }

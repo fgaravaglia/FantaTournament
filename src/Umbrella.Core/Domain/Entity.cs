@@ -41,6 +41,7 @@ namespace Umbrella.Core.Domain
 
         #endregion
 
+
         /// <summary>
         /// Marks the entity as modified
         /// </summary>

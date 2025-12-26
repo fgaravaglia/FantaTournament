@@ -4,6 +4,9 @@ using Umbrella.Core.Domain;
 
 namespace FantaTournament.Domain.Forecast.Entities
 {
+    /// <summary>
+    /// Calculation Status Value Object
+    /// </summary>
     public class CalculationStatus : ValueObject, IKeyValuePairObject
     {
         /// <summary>
