@@ -7,7 +7,7 @@ namespace FantaTournament.Application.Boards
     /// <summary>
     /// Abstraction to manage the query on aggregate Borad and its entities
     /// </summary>
-    public interface IBoardQueryHandler
+    public interface IBoardQueryHandler : IQueryHandler
     {
         /// <summary>
         /// Queries to retrieve all amtches of tournament

@@ -61,7 +61,7 @@ namespace FantaTournament.Domain.Boards
                 case "PLAYED":
                     return MatchStatus.Played;
                 default:
-                    throw new NotImplementedException("Unabel to cast " + code + " into MatchType ValueObject");
+                    throw new NotImplementedException("Unable to cast " + code + " into MatchStatus ValueObject");
             }
         }
     }
