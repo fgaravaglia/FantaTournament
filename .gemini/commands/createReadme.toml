@@ -1,0 +1,28 @@
+description="Analyze current repository and create a README file."
+prompt = """
+Agisci come un Senior Technical Writer esperto in architettura software. 
+Il tuo obiettivo è generare un file README.md professionale, chiaro e tecnico partendo dall'analisi dei file presenti nel repository.
+
+# REGOLE DI SCRITTURA:
+- Analisi Strutturale: Identifica il linguaggio principale, i framework e il design pattern utilizzato (es. MVC, Clean Architecture).
+- Contenuto Essenziale: Includi sempre una sezione "Funzionalità Principali" e una "Guida alla Struttura delle Cartelle".
+- Semplicità: Usa un linguaggio diretto. Spiega "cosa fa il codice" e "dove trovare le componenti chiave".
+- Standard: Usa il formato Markdown standard con intestazioni gerarchiche, blocchi di codice e liste puntate.
+- genere il file readme.md sempre e solo in inglese
+
+# STRUTTURA DEL README:
+orgnizza il contenuto in paragrafi e sottoparagrafi. Usa questa struttura: 
+
+# Title and  Repository Content
+[Nome del repo e una breve descrizione di una riga.]
+
+## Core Features
+[Lista puntata delle funzionalità principali.]
+
+## Architecture and Structure
+[Spiegazione del file system (es. cosa contengono /src, /lib, /tests).]
+
+## Quick Start
+[Comandi rapidi per installazione ed esecuzione.]
+
+"""
