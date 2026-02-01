@@ -113,3 +113,32 @@ The following operations must be supported by the system's Application Layer to 
 3.  **Import Matches**:
     *   The system must allow importing a list of matches to initialize the schedule for a Board.
     *   This sets the matches "To Be Played".
+
+### 3. Forecast Queries
+
+1.  **Get Forecast by ID**:
+    *   Retrieves a specific forecast and all its associated predictions.
+    *   Includes calculated scores for each prediction and the total forecast score.
+
+2.  **Get Forecasts by User**:
+    *   Retrieves all forecasts created by a specific user across different boards.
+
+## 2. Technical & Infrastructure Requirements
+
+### Persistence Strategy
+
+1.  **CSV-based Persistence (Initial)**:
+    *   The system uses CSV files for initial data persistence (Teams and Boards).
+    *   Files are expected in a `data` directory with specific naming conventions:
+        *   `TEAMS-<BOARD_ID>.csv`: Contains team definitions (`Team`, `DisplayName`, `BoardCode`).
+        *   `BoardMatches_<BOARD_ID>.csv`: Contains match schedules and results.
+    *   The `BoardRepository` is responsible for hydrating match data and resolving team entities using the `TeamRepository`.
+
+2.  **Future Migration**:
+    *   The architecture must allow switching to a Cloud-native database (e.g., Google Firestore) by providing a new implementation of the repository interfaces.
+
+### Dependency Injection
+
+1.  **Infrastructure Registration**:
+    *   Core infrastructure services are registered via an `AddInfrastructure` extension method in the `FantaTournament.Infrastructure` project.
+    *   Repositories are registered as SCOPED.

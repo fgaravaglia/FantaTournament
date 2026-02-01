@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\FantaTournament.Application\FantaTournament.Application.csproj" />
     <ProjectReference Include="..\..\FantaTournament.Domain\FantaTournament.Domain.csproj" />
+    <ProjectReference Include="..\..\FantaTournament.Infrastructure\FantaTournament.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
