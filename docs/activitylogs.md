@@ -5,9 +5,10 @@ This document contains the activity logs of the application, wich notes from eac
 ## Session 3
 
 **Date:** 08/02/2026
-**Duration:** 1 Hour
+**Duration:** 1.5 Hour
 **Description:**
 - Implementation of message bus for asyncronous event processing
+- Setup REST Api
 
 ## Session 2
 
