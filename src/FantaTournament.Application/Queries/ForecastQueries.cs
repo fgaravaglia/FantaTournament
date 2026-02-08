@@ -40,6 +40,7 @@ public class ForecastQueries : IForecastQueries
         return Result<IEnumerable<ForecastDto>>.Success(dtos);
     }
 
+    #region Private Methods
     private static ForecastDto MapToDto(FantaTournament.Domain.Entities.Forecast forecast)
     {
         return new ForecastDto
@@ -60,4 +61,5 @@ public class ForecastQueries : IForecastQueries
             }).ToList()
         };
     }
+    #endregion
 }

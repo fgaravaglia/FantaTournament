@@ -51,4 +51,29 @@ public static class DependencyInjection
     }
 
 
+    /// <summary>
+    /// Adds the capability to store forecasts data using JSON files to the specified <see cref="IServiceCollection"/>.
+    /// </summary>
+    /// <param name="services">The service collection to add the services to.</param>
+    /// <param name="configuration">The configuration to use.</param>
+    /// <returns>The updated service collection.</returns>
+    public static IServiceCollection UsingJsonPersistenceForForecasts(this IServiceCollection services, IConfiguration configuration)
+    {
+        var dataPath = configuration["Persistence:JsonDataPath"] ?? "data";
+
+        var absoluteDataPath = Path.IsPathRooted(dataPath)
+            ? dataPath
+            : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dataPath);
+
+        services.AddScoped<IForecastRepository>(sp =>
+            new JsonForecastRepository(absoluteDataPath, sp.GetRequiredService<ILogger<JsonForecastRepository>>()));
+
+        services.AddScoped<ILeagueRepository>(sp =>
+            new JsonLeagueRepository(absoluteDataPath, sp.GetRequiredService<ILogger<JsonLeagueRepository>>()));
+
+        services.AddScoped<IRankingRepository>(sp =>
+            new JsonRankingRepository(absoluteDataPath, sp.GetRequiredService<ILogger<JsonRankingRepository>>()));
+
+        return services;
+    }
 }

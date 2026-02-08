@@ -14,7 +14,7 @@ public class ForecastTests
     {
         // Arrange
         var policy = Substitute.For<IScoringPolicy>();
-        var board = new Board { Name = "Test Board" };
+        var board = new Board { Name = "Test Board", Code = "C1" };
         var match1 = new Match 
         { 
             Code = "M1", 
@@ -72,7 +72,7 @@ public class ForecastTests
     {
         // Arrange
         var policy = Substitute.For<IScoringPolicy>();
-        var board = new Board { Name = "Test Board" }; // Empty board
+        var board = new Board { Name = "Test Board", Code = "C1" }; // Empty board
         var forecast = new Forecast 
         { 
             UserId = "U1", 

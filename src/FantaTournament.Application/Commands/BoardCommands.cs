@@ -2,7 +2,9 @@ using FantaTournament.Application.DTOs;
 using FantaTournament.Domain.Entities;
 using FantaTournament.Domain.Repositories;
 using FantaTournament.Domain.ValueObjects;
+using FantaTournament.Domain.Events;
 using Umbrella.Core;
+using Umbrella.Core.Messaging;
 
 namespace FantaTournament.Application.Commands;
 
@@ -12,14 +14,17 @@ namespace FantaTournament.Application.Commands;
 public class BoardCommands : IBoardCommands
 {
     private readonly IBoardRepository _repository;
+    private readonly IEventBus _eventBus;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BoardCommands"/> class.
     /// </summary>
     /// <param name="repository">The repository used to persist board changes.</param>
-    public BoardCommands(IBoardRepository repository)
+    /// <param name="eventBus">The event bus to publish events.</param>
+    public BoardCommands(IBoardRepository repository, IEventBus eventBus)
     {
         _repository = repository;
+        _eventBus = eventBus;
     }
 
     /// <inheritdoc/>
@@ -32,11 +37,15 @@ public class BoardCommands : IBoardCommands
         if (match == null) return Result<string>.Failure(new[] { "Match not found" });
 
         match.Result = result;
-        // Optionally update status if result is set? Usually implies Played?
-        // Requirement didn't strictly say so, but it's logical. 
-        // For now, trust explicit calls.
 
         await _repository.UpdateAsync(board);
+
+        // If Played, notify subscribers
+        if (match.Status == MatchStatus.Played)
+        {
+            await _eventBus.PublishAsync(new MatchResultUpdatedEvent(boardId, matchId, result));
+        }
+
         return Result<string>.Success(match.Id);
     }
 
@@ -52,6 +61,13 @@ public class BoardCommands : IBoardCommands
         match.Status = status;
 
         await _repository.UpdateAsync(board);
+
+        // If transitioned to Played or updated while Played, notify subscribers
+        if (status == MatchStatus.Played && match.Result != null)
+        {
+            await _eventBus.PublishAsync(new MatchResultUpdatedEvent(boardId, matchId, match.Result));
+        }
+
         return Result<string>.Success(match.Id);
     }
 

@@ -16,14 +16,16 @@ public interface IForecastRepository
     /// </returns>
     Task<Forecast?> GetByIdAsync(string id);
 
-    /// <summary>
-    /// Retrieves all forecasts associated with a specific user.
-    /// </summary>
-    /// <param name="userId">The unique identifier of the user.</param>
-    /// <returns>
-    /// A collection of <see cref="Forecast"/> entities belonging to the user.
-    /// </returns>
     Task<IEnumerable<Forecast>> GetByUserIdAsync(string userId);
+
+    /// <summary>
+    /// Retrieves all forecasts associated with a specific board.
+    /// </summary>
+    /// <param name="boardId">The unique identifier of the board.</param>
+    /// <returns>
+    /// A collection of <see cref="Forecast"/> entities for the board.
+    /// </returns>
+    Task<IEnumerable<Forecast>> GetByBoardIdAsync(string boardId);
 
     /// <summary>
     /// Persists changes made to an existing forecast.
@@ -31,4 +33,11 @@ public interface IForecastRepository
     /// <param name="forecast">The forecast entity containing the changes to be updated.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous update operation.</returns>
     Task UpdateAsync(Forecast forecast);
+
+    /// <summary>
+    /// Removes a forecast from the repository.
+    /// </summary>
+    /// <param name="id">The unique identifier of the forecast to remove.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous deletion operation.</returns>
+    Task DeleteAsync(string id);
 }

@@ -22,14 +22,14 @@ Refer To:
   - **[Terraform Conventions](./docs/01-coding-standards/terraform-coding-standards.md)** - Defines the best practices to generate terraform scripts.
 - **Architectures**:
   - **[Onion Architecture](./docs/02-architectures/onion-architecture.md)** - Rules and best practices about Onion Architecture
-  - **[Logging strategy](./docs/02-architectures/logging-strategy.md)** - Rules and best practices about logging strategy
+  - **[Logging strategy](./docs/02-architectures/logging-standards.md)** - Rules and best practices about logging strategy
   - **[REST API Best Practices](./docs/02-architectures/api-standards.md)** - Define rules and best practices to write REST API, whatever the technology
 - **Implementation Strategy**: How to apply coding standards and architectural principles
   - Onion Architecture:
     1. **[Domain Layer Guidelines](./docs/03-Implementation-strategy/domain-layer.md)** - Rules and best practices to write a domain component
     2. **[Application Layer Guidelines](./docs/03-Implementation-strategy/application-layer.md)** - Rules and best practices to write an application component
     3. **[Infrastructure Layer Guidelines](./docs/03-Implementation-strategy/infrastructure-layer.md)** - Rules and best practices to write an infrastructure component
-    4. **[Api Layer Guidelines](./docs/03-Implementation-strategy/onion-restapi.md)**
+    4. **[Api Layer Guidelines](./docs/03-Implementation-strategy/api-layer.md)**
 - **[Requirements](./docs/Requirements.md)** - Requirements defined for this repository
 
 **Global Instruction**: Ogni codice generato deve rispettare rigorosamente i file referenziati sopra.

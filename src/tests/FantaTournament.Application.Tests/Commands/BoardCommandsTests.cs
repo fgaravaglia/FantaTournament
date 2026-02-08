@@ -3,6 +3,8 @@ using FantaTournament.Application.DTOs;
 using FantaTournament.Domain.Entities;
 using FantaTournament.Domain.Repositories;
 using FantaTournament.Domain.ValueObjects;
+using FantaTournament.Domain.Events;
+using Umbrella.Core.Messaging;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -12,13 +14,15 @@ namespace FantaTournament.Application.Tests.Commands;
 public class BoardCommandsTests
 {
     private IBoardRepository _repository;
+    private IEventBus _eventBus;
     private BoardCommands _commands;
 
     [SetUp]
     public void SetUp()
     {
         _repository = Substitute.For<IBoardRepository>();
-        _commands = new BoardCommands(_repository);
+        _eventBus = Substitute.For<IEventBus>();
+        _commands = new BoardCommands(_repository, _eventBus);
     }
 
     [Test]
@@ -30,9 +34,10 @@ public class BoardCommandsTests
         { 
             Code = "M1", Phase = MatchPhase.GroupStage, Date = DateTime.Now, 
             HomeTeamPlaceholder = "H", AwayTeamPlaceholder = "A",
-            Status = MatchStatus.Scheduled
+            Status = MatchStatus.Played,
+            Result = new MatchResult(new Score(0, 0))
         };
-        board.Matches.Add(match); // ID will be auto-generated or Guid
+        board.Matches.Add(match);
         var matchId = match.Id;
 
         _repository.GetByIdAsync(board.Id).Returns(board);
@@ -46,6 +51,7 @@ public class BoardCommandsTests
         Assert.That(result.Succeeded, Is.True);
         Assert.That(match.Result, Is.EqualTo(newResult));
         await _repository.Received(1).UpdateAsync(board);
+        await _eventBus.Received(1).PublishAsync(Arg.Is<MatchResultUpdatedEvent>(e => e.MatchId == matchId && e.Result == newResult));
     }
 
     [Test]
@@ -57,7 +63,8 @@ public class BoardCommandsTests
         { 
             Code = "M1", Phase = MatchPhase.GroupStage, Date = DateTime.Now, 
             HomeTeamPlaceholder = "H", AwayTeamPlaceholder = "A",
-            Status = MatchStatus.Scheduled
+            Status = MatchStatus.Scheduled,
+            Result = new MatchResult(new Score(1, 1))
         };
         board.Matches.Add(match);
         var matchId = match.Id;
@@ -65,12 +72,13 @@ public class BoardCommandsTests
         _repository.GetByIdAsync(board.Id).Returns(board);
 
         // Act
-        var result = await _commands.UpdateMatchStatusAsync(board.Id, matchId, MatchStatus.InProgress);
+        var result = await _commands.UpdateMatchStatusAsync(board.Id, matchId, MatchStatus.Played);
 
         // Assert
         Assert.That(result.Succeeded, Is.True);
-        Assert.That(match.Status, Is.EqualTo(MatchStatus.InProgress));
+        Assert.That(match.Status, Is.EqualTo(MatchStatus.Played));
         await _repository.Received(1).UpdateAsync(board);
+        await _eventBus.Received(1).PublishAsync(Arg.Is<MatchResultUpdatedEvent>(e => e.MatchId == matchId));
     }
 
     [Test]
