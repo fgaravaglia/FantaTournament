@@ -26,6 +26,7 @@ public static class DependencyInjection
         services.AddScoped<IForecastCommands, ForecastCommands>();
 
         // Queries
+        services.AddScoped<IBoardQueries, BoardQueries>();
         services.AddScoped<IForecastQueries, ForecastQueries>();
 
         // Domain Services (if not registered elsewhere)

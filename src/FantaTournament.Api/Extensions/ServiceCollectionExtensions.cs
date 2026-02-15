@@ -25,6 +25,10 @@ public static class ServiceCollectionExtensions
         // Add FantaTournament business dependencies
         services.AddFantaTournament(configuration);
 
+        // Configure Authentication & Authorization
+        services.AddApiAuthentication(configuration);
+        services.AddApiAuthorization();
+
         // Configure Controllers with REST best practices
         services.AddControllers()
             .AddJsonOptions(options =>

@@ -2,6 +2,14 @@
 
 This document contains the activity logs of the application, wich notes from each sessions of development and coding.
 
+## Session 4
+
+**Date:** 15/02/2026
+**Duration:** 2  Hour
+**Description:**
+- Exposure domain capabilities trhough REST endpoints
+- Enable authentication through Jwt Provided by Auth0
+
 ## Session 3
 
 **Date:** 08/02/2026
@@ -27,5 +35,5 @@ This document contains the activity logs of the application, wich notes from eac
 - definition of domain models:
   - Entities:Teams, macthes and Forecasts for each Board.
   - Scoring and Ranking Engines
-- Implementation of Queries about Temas and matches
+- Implementation of Queries about Teams and matches
 

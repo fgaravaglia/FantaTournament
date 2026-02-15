@@ -38,7 +38,8 @@ public static class WebApplicationExtensions
         // CORS
         app.UseCors("AllowAll");
 
-        // Auth placeholder
+        // Auth Middleware
+        app.UseAuthentication();
         app.UseAuthorization();
 
         // Structured Logging for Requests
