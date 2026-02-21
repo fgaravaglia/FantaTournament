@@ -4,8 +4,9 @@ Put here the description of the repository
 
 ## Technology Stack
 
-- **Backend**: dotnet REST API
+- **Backend**: dotnet 8.0 REST API
 - **Frontend**: [REACT js  + Typescript]  
+- Detailed guidelines: `/docs/`
 
 this repository has the following structure:
 
