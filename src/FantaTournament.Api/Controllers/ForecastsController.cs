@@ -1,6 +1,7 @@
 using FantaTournament.Application.Commands;
 using FantaTournament.Application.DTOs;
 using FantaTournament.Application.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FantaTournament.Api.Controllers;
@@ -8,6 +9,7 @@ namespace FantaTournament.Api.Controllers;
 /// <summary>
 /// Controller for managing user Forecasts.
 /// </summary>
+[Authorize(Policy = "NormalUser")]
 public class ForecastsController : ApiControllerBase
 {
     private readonly IForecastQueries _forecastQueries;

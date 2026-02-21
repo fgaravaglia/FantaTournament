@@ -1,0 +1,9 @@
+global using NUnit.Framework;
+global using NSubstitute;
+global using FantaTournament.Api.Controllers;
+global using FantaTournament.Application.DTOs;
+global using FantaTournament.Application.Queries;
+global using FantaTournament.Application.Commands;
+global using Microsoft.AspNetCore.Mvc;
+global using FantaTournament.Domain.ValueObjects;
+global using Umbrella.Core;

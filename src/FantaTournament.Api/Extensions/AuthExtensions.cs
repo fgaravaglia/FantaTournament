@@ -45,18 +45,19 @@ public static class AuthExtensions
     {
         services.AddAuthorization(options =>
         {
-            // Example policy based on 'permissions' claim as per Auth0 best practices
-            options.AddPolicy("AdminOnly", policy => 
-                policy.RequireClaim("permissions", "admin:all"));
+            // Scopes as per requirements:
+            // - read:boards: Access and read board data
+            // - write:boards: Update match results
+            // - read:forecast: View user forecasts
+            // - write:forecast: Update forecasts
+            // - read:admin: Access admin pages
+            // - write:admin: Update configuration/write access to admin pages
+
+            options.AddPolicy("NormalUser", policy => 
+                policy.RequireClaim("permissions", "read:boards", "read:forecast", "write:forecast"));
             
-            options.AddPolicy("UserAccess", policy => 
-                policy.RequireClaim("permissions", "user:access"));
-
-            options.AddPolicy("BoardReader", policy => 
-                policy.RequireClaim("permissions", "read:boards"));
-
-            options.AddPolicy("BoardWriter", policy => 
-                policy.RequireClaim("permissions", "write:boards"));
+            options.AddPolicy("Administrator", policy => 
+                policy.RequireClaim("permissions", "write:boards", "read:admin", "write:admin"));
         });
 
         return services;

@@ -8,7 +8,13 @@ L'entità "API" su Auth0 serve a definire la risorsa protetta e i permessi (scop
 - In Settings, attiva:
   - Enable RBAC: ON
   - Add Permissions in the Access Token: ON
-- In Permissions, definisci gli scope (es. read:reports, write:orders).
+- In Permissions, definisci gli scope richiesti:
+  - `read:boards`: Accesso in lettura ai dati delle board (partite, team, risultati).
+  - `write:boards`: Aggiornamento dei risultati di una partita.
+  - `read:forecast`: Visualizzazione dei forecast degli utenti.
+  - `write:forecast`: Aggiornamento forecast.
+  - `read:admin`: Accesso alle pagine amministrative.
+  - `write:admin`: Aggiornamento configurazione e accesso in scrittura admin.
 
 ## 2. Creazione Web Application (Frontend React)
 Gestisce il login degli utenti tramite browser.Passaggi in Auth0 Dashboard:
@@ -59,8 +65,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // 2. Configurazione Autorizzazione (RBAC)
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("ReadReports", policy => 
-        policy.RequireClaim("permissions", "read:reports"));
+    options.AddPolicy("NormalUser", policy => 
+        policy.RequireClaim("permissions", "read:boards", "read:forecast", "write:forecast"));
+    
+    options.AddPolicy("Administrator", policy => 
+        policy.RequireClaim("permissions", "write:boards", "read:admin", "write:admin"));
 });
 
 var app = builder.Build();

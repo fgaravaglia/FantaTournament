@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantaTournament.Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbrella.Core.Tests", "src\tests\Umbrella.Core.Tests\Umbrella.Core.Tests.csproj", "{75477FAC-48A7-44E0-90DD-BAEDA4A2EB64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantaTournament.Api.Tests", "src\tests\FantaTournament.Api.Tests\FantaTournament.Api.Tests.csproj", "{21D4ED47-C776-43FB-94D4-A592D8E1E149}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{75477FAC-48A7-44E0-90DD-BAEDA4A2EB64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75477FAC-48A7-44E0-90DD-BAEDA4A2EB64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75477FAC-48A7-44E0-90DD-BAEDA4A2EB64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21D4ED47-C776-43FB-94D4-A592D8E1E149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21D4ED47-C776-43FB-94D4-A592D8E1E149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21D4ED47-C776-43FB-94D4-A592D8E1E149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21D4ED47-C776-43FB-94D4-A592D8E1E149}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C9C4A498-ABA9-42ED-B7E3-BD5F882E8764} = {A6EE3D85-3266-4D0F-8929-8DFD8B6FA389}
@@ -78,5 +84,6 @@ Global
 		{04174514-E2F6-4AC5-939B-2F89FAAC7C10} = {20D5C5D3-BD0E-4748-9922-3A8C2215C1F8}
 		{490F9929-7B4D-4BF0-B1D3-66F28A445868} = {20D5C5D3-BD0E-4748-9922-3A8C2215C1F8}
 		{75477FAC-48A7-44E0-90DD-BAEDA4A2EB64} = {20D5C5D3-BD0E-4748-9922-3A8C2215C1F8}
+		{21D4ED47-C776-43FB-94D4-A592D8E1E149} = {20D5C5D3-BD0E-4748-9922-3A8C2215C1F8}
 	EndGlobalSection
 EndGlobal
