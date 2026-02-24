@@ -15,10 +15,24 @@ const PlaceholderPage: React.FC<{ title: string }> = ({ title }) => (
   </Box>
 );
 
+import RequireAuth from './components/RequireAuth';
+import LoginPage from './pages/LoginPage';
+
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<MainLayout />}>
+      {/* Login route - Outside MainLayout */}
+      <Route path="/login" element={<LoginPage />} />
+
+      {/* Protected routes - Inside MainLayout */}
+      <Route
+        path="/"
+        element={
+          <RequireAuth>
+            <MainLayout />
+          </RequireAuth>
+        }
+      >
         <Route index element={<Home />} />
         <Route path="forecasts" element={<MyForecasts />} />
         <Route path="ranking" element={<Ranking />} />

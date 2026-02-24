@@ -9,7 +9,8 @@ The frontend of FantaTournament is a modern web application built with React and
 - **Routing**: React Router DOM
 
 ## Layout Structure
-The application features a responsive layout divided into three main sections:
+The application features a responsive layout divided into three main sections.
+You can find example of the layout and theme in the folder ./99-layout-samples.
 
 ### 1. Fixed Header Bar (Top)
 - **Left Section**: Navigation links to static pages.

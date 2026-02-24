@@ -41,6 +41,10 @@ ScaffoldingReadMe.txt
 *~
 CodeCoverage/
 
+# secrets
+src/UI/src/.env
+src/UI/src/.env.local
+
 # MSBuild Binary and Structured Log
 *.binlog
 

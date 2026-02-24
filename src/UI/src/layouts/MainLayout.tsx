@@ -30,10 +30,12 @@ import {
     Person as PersonIcon
 } from '@mui/icons-material';
 import { Link, Outlet } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const drawerWidth = 240;
 
 const MainLayout: React.FC = () => {
+    const { user, logout } = useAuth0();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const handleDrawerToggle = () => {
@@ -57,24 +59,74 @@ const MainLayout: React.FC = () => {
 
     const drawer = (
         <div>
-            <Toolbar />
-            <Divider />
-            <List>
+            <Toolbar sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'text.primary', letterSpacing: '2px' }}>
+                    CORONA
+                </Typography>
+            </Toolbar>
+            <Box sx={{ px: 2, py: 3, display: 'flex', alignItems: 'center' }}>
+                <Avatar
+                    src={user?.picture}
+                    sx={{ width: 40, height: 40, mr: 2, bgcolor: 'primary.main' }}
+                >
+                    {user?.name?.charAt(0) || 'U'}
+                </Avatar>
+                <Box sx={{ overflow: 'hidden' }}>
+                    <Typography
+                        variant="subtitle2"
+                        sx={{ fontWeight: 'bold', color: 'text.primary', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                    >
+                        {user?.name || 'User'}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                        {user?.email || 'Authenticated'}
+                    </Typography>
+                </Box>
+                <IconButton size="small" sx={{ ml: 'auto', color: 'text.secondary' }}>
+                    <MenuIcon fontSize="small" />
+                </IconButton>
+            </Box>
+            <Typography variant="overline" sx={{ px: 3, py: 1, display: 'block', color: 'text.secondary', fontWeight: 'bold' }}>
+                Navigation
+            </Typography>
+            <List sx={{ px: 1 }}>
                 {menuItems.map((item) => (
-                    <ListItem key={item.text} disablePadding>
-                        <ListItemButton component={Link} to={item.path}>
+                    <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+                        <ListItemButton
+                            component={Link}
+                            to={item.path}
+                            sx={{
+                                borderRadius: 1,
+                                '& .MuiListItemIcon-root': { color: 'secondary.main', minWidth: 40 }
+                            }}
+                        >
                             <ListItemIcon>{item.icon}</ListItemIcon>
-                            <ListItemText primary={item.text} />
+                            <ListItemText
+                                primary={item.text}
+                                primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500 } }}
+                            />
                         </ListItemButton>
                     </ListItem>
                 ))}
             </List>
-            <Divider />
-            <List>
+            <Divider sx={{ my: 1, borderColor: '#2c2e33' }} />
+            <Typography variant="overline" sx={{ px: 3, py: 1, display: 'block', color: 'text.secondary', fontWeight: 'bold' }}>
+                More
+            </Typography>
+            <List sx={{ px: 1 }}>
                 <ListItem disablePadding>
-                    <ListItemButton onClick={() => console.log('Logout')}>
+                    <ListItemButton
+                        onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                        sx={{
+                            borderRadius: 1,
+                            '& .MuiListItemIcon-root': { color: 'error.main', minWidth: 40 }
+                        }}
+                    >
                         <ListItemIcon><LogoutIcon /></ListItemIcon>
-                        <ListItemText primary="Logout" />
+                        <ListItemText
+                            primary="Logout"
+                            primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500 } }}
+                        />
                     </ListItemButton>
                 </ListItem>
             </List>
@@ -89,10 +141,17 @@ const MainLayout: React.FC = () => {
             <AppBar
                 position="fixed"
                 sx={{
+                    width: isSidebarOpen ? `calc(100% - ${drawerWidth}px)` : '100%',
+                    ml: isSidebarOpen ? `${drawerWidth}px` : 0,
+                    transition: (theme) => theme.transitions.create(['margin', 'width'], {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.leavingScreen,
+                    }),
                     zIndex: (theme) => theme.zIndex.drawer + 1,
-                    backgroundColor: '#fff',
-                    color: '#333',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                    backgroundColor: 'background.paper',
+                    color: 'text.primary',
+                    boxShadow: 'none',
+                    borderBottom: '1px solid #2c2e33'
                 }}
             >
                 <Toolbar>
@@ -106,8 +165,8 @@ const MainLayout: React.FC = () => {
                         <MenuIcon />
                     </IconButton>
 
-                    <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: '#1976d2', mr: 4 }}>
-                        FantaTournament
+                    <Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'bold', color: 'text.primary', mr: 4, letterSpacing: '1px' }}>
+                        CORONA
                     </Typography>
 
                     {/* Top Nav Links */}
@@ -129,8 +188,11 @@ const MainLayout: React.FC = () => {
                             </Badge>
                         </IconButton>
                         <IconButton color="inherit" component={Link} to="/profile">
-                            <Avatar sx={{ width: 32, height: 32, bgcolor: '#1976d2' }}>
-                                <PersonIcon />
+                            <Avatar
+                                src={user?.picture}
+                                sx={{ width: 32, height: 32, bgcolor: 'secondary.main' }}
+                            >
+                                {user?.name?.charAt(0) || <PersonIcon />}
                             </Avatar>
                         </IconButton>
                     </Stack>
@@ -159,13 +221,12 @@ const MainLayout: React.FC = () => {
                 sx={{
                     flexGrow: 1,
                     p: 3,
-                    backgroundColor: '#f4f6f8',
+                    backgroundColor: 'background.default',
                     minHeight: '100vh',
                     transition: (theme) => theme.transitions.create('margin', {
                         easing: theme.transitions.easing.sharp,
                         duration: theme.transitions.duration.leavingScreen,
                     }),
-                    marginLeft: isSidebarOpen ? 0 : `-${drawerWidth}px`,
                 }}
             >
                 <Toolbar />
