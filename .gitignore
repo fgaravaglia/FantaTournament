@@ -56,3 +56,6 @@ src/UI/src/.env.local
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# REACT
+src/UI/package-lock.json

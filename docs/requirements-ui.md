@@ -9,30 +9,32 @@ The frontend of FantaTournament is a modern web application built with React and
 - **Routing**: React Router DOM
 
 ## Layout Structure
-The application features a responsive layout divided into three main sections.
-You can find example of the layout and theme in the folder ./99-layout-samples.
+The application features a responsive, full-width layout divided into three main sections.
+The design supports dynamic application titles and branding defined via environment variables (`VITE_APPLICATION_TITLE`).
 
 ### 1. Fixed Header Bar (Top)
-- **Left Section**: Navigation links to static pages.
-  - Home
-  - Privacy policy
-  - Support
-  - Regulation
+- **Left Section**: Dynamic Application Title (e.g., "Forecast Cup") and navigation links.
 - **Right Section**: User utility links.
   - Notifications Center (with badge)
   - Profile / User Avatar
 
 ### 2. Collapsible Sidebar (Left)
-Provides access to core application features:
-- Home
-- My Forecast
-- Ranking
-- Board
-- Leagues
-- Logout
+Redesigned with modern icons and enhanced structure:
+- **Home**: Main dashboard.
+- **My Forecast**: User's active forecasts.
+- **Ranking**: Global and league standings.
+- **Tournament Board**: Active tournament match details.
+- **Leagues**: Private and public user groups.
+- **Admin Tools**: Collapsible section for administrative tasks.
+- **Logout**: Secure session termination.
 
-### 3. Central Content Area
-A dynamic area that renders the page content based on the active route. It is responsive and adjusts margins automatically when the sidebar is toggled.
+### 3. Central Content Area (100% Width)
+A dynamic area that renders the page content based on the active route. It is responsive and occupies 100% of the available horizontal space.
+
+#### Home Page (3-Zone Layout)
+- **Zone A (KPI Headers)**: Summary cards for Global Position, Points, and completeness.
+- **Zone B (Main Content - 75%)**: Primary rankings and lists.
+- **Zone C (Side Content - 25%)**: Sidebars for specific data like "Next Matches".
 
 ## Visual Style
 - **Aesthetics**: Premium Material Design with a clean, light-mode balanced palette.

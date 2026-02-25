@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Button, Typography, Container, Paper } from '@mui/material';
+import { Box, Button, Typography, Container, Paper, Tooltip } from '@mui/material';
 import { Navigate, useLocation } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
@@ -45,24 +45,36 @@ const LoginPage: React.FC = () => {
                             fontWeight: 'bold',
                             color: 'text.primary',
                             letterSpacing: '4px',
-                            mb: 4,
+                            mb: 2,
                         }}
                     >
-                        CORONA
+                        {import.meta.env.VITE_APPLICATION_TITLE}
                     </Typography>
+                    <Box
+                        component="img"
+                        src="/FTLogo.png"
+                        alt="Logo"
+                        sx={{
+                            width: 120,
+                            height: 'auto',
+                            mb: 4,
+                        }}
+                    />
                     <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4, textAlign: 'center' }}>
                         Welcome back! Please sign in to your account.
                     </Typography>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        onClick={() => loginWithRedirect()}
-                        sx={{ py: 1.5, fontWeight: 'bold' }}
-                    >
-                        Sign In
-                    </Button>
+                    <Tooltip title="click here to sign in" arrow>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            onClick={() => loginWithRedirect()}
+                            sx={{ py: 1.5, fontWeight: 'bold' }}
+                        >
+                            Sign In
+                        </Button>
+                    </Tooltip>
                 </Paper>
             </Container>
         </Box>

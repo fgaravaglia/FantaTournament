@@ -22,17 +22,21 @@ import {
     Menu as MenuIcon,
     Home as HomeIcon,
     EmojiEvents as RankingIcon,
-    Assessment as BoardIcon,
-    Groups as LeaguesIcon,
-    History as ForecastIcon,
-    Logout as LogoutIcon,
+    Inventory as ForecastIcon,
+    TableChart as LeaguesIcon,
+    SportsSoccer as BoardIcon,
+    Settings as AdminIcon,
+    ExitToApp as LogoutIcon,
     Notifications as NotificationsIcon,
-    Person as PersonIcon
+    Person as PersonIcon,
+    ExpandLess,
+    ExpandMore
 } from '@mui/icons-material';
+import { Collapse } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const MainLayout: React.FC = () => {
     const { user, logout } = useAuth0();
@@ -42,12 +46,23 @@ const MainLayout: React.FC = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+    const handleAdminToggle = () => {
+        setIsAdminOpen(!isAdminOpen);
+    };
+
     const menuItems = [
-        { text: 'Home', icon: <HomeIcon />, path: '/' },
-        { text: 'My Forecast', icon: <ForecastIcon />, path: '/forecasts' },
-        { text: 'Ranking', icon: <RankingIcon />, path: '/ranking' },
-        { text: 'Board', icon: <BoardIcon />, path: '/board' },
-        { text: 'Leagues', icon: <LeaguesIcon />, path: '/leagues' },
+        { text: 'Home', icon: <HomeIcon />, path: '/', color: '#10b981' }, // Green
+        { text: 'My Forecast', icon: <ForecastIcon />, path: '/forecasts', color: '#f59e0b' }, // Amber
+        { text: 'Ranking', icon: <RankingIcon />, path: '/ranking', color: '#ec4899' }, // Pink
+        { text: 'Tournament Board', icon: <BoardIcon />, path: '/board', color: '#06b6d4' }, // Cyan
+        { text: 'Leagues', icon: <LeaguesIcon />, path: '/leagues', color: '#8b5cf6' }, // Violet
+    ];
+
+    const adminItems = [
+        { text: 'Users', path: '/admin/users' },
+        { text: 'Settings', path: '/admin/settings' },
     ];
 
     const headerLinks = [
@@ -61,7 +76,7 @@ const MainLayout: React.FC = () => {
         <div>
             <Toolbar sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
                 <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'text.primary', letterSpacing: '2px' }}>
-                    CORONA
+                    {import.meta.env.VITE_APPLICATION_TITLE}
                 </Typography>
             </Toolbar>
             <Box sx={{ px: 2, py: 3, display: 'flex', alignItems: 'center' }}>
@@ -97,35 +112,106 @@ const MainLayout: React.FC = () => {
                             to={item.path}
                             sx={{
                                 borderRadius: 1,
-                                '& .MuiListItemIcon-root': { color: 'secondary.main', minWidth: 40 }
+                                '& .MuiListItemIcon-root': { color: item.color, minWidth: 48 }
                             }}
                         >
-                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemIcon>
+                                <Box sx={{
+                                    width: 32,
+                                    height: 32,
+                                    borderRadius: '8px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    bgcolor: 'rgba(255, 255, 255, 0.05)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                                }}>
+                                    {React.cloneElement(item.icon as React.ReactElement, { sx: { fontSize: 20 } })}
+                                </Box>
+                            </ListItemIcon>
                             <ListItemText
                                 primary={item.text}
-                                primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500 } }}
+                                primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500, color: 'text.primary' } }}
                             />
                         </ListItemButton>
                     </ListItem>
                 ))}
-            </List>
-            <Divider sx={{ my: 1, borderColor: '#2c2e33' }} />
-            <Typography variant="overline" sx={{ px: 3, py: 1, display: 'block', color: 'text.secondary', fontWeight: 'bold' }}>
-                More
-            </Typography>
-            <List sx={{ px: 1 }}>
+
+                {/* Admin Tools Collapsible */}
+                <ListItem disablePadding sx={{ mb: 0.5 }}>
+                    <ListItemButton
+                        onClick={handleAdminToggle}
+                        sx={{
+                            borderRadius: 1,
+                            '& .MuiListItemIcon-root': { color: '#f97316', minWidth: 48 } // Orange for Admin
+                        }}
+                    >
+                        <ListItemIcon>
+                            <Box sx={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: '8px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                bgcolor: 'rgba(255, 255, 255, 0.05)',
+                                border: '1px solid rgba(255, 255, 255, 0.1)'
+                            }}>
+                                <AdminIcon sx={{ fontSize: 20 }} />
+                            </Box>
+                        </ListItemIcon>
+                        <ListItemText
+                            primary="Admin Tools"
+                            primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500, color: 'text.primary' } }}
+                        />
+                        {isAdminOpen ? <ExpandLess sx={{ color: 'text.secondary' }} /> : <ExpandMore sx={{ color: 'text.secondary' }} />}
+                    </ListItemButton>
+                </ListItem>
+                <Collapse in={isAdminOpen} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding sx={{ pl: 4 }}>
+                        {adminItems.map((item) => (
+                            <ListItemButton
+                                key={item.text}
+                                component={Link}
+                                to={item.path}
+                                sx={{ borderRadius: 1, mb: 0.5 }}
+                            >
+                                <ListItemText
+                                    primary={item.text}
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Collapse>
+
+                <Divider sx={{ my: 1, borderColor: '#2c2e33' }} />
+
                 <ListItem disablePadding>
                     <ListItemButton
                         onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
                         sx={{
                             borderRadius: 1,
-                            '& .MuiListItemIcon-root': { color: 'error.main', minWidth: 40 }
+                            '& .MuiListItemIcon-root': { color: '#94a3b8', minWidth: 48 } // Grey for logout
                         }}
                     >
-                        <ListItemIcon><LogoutIcon /></ListItemIcon>
+                        <ListItemIcon>
+                            <Box sx={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: '8px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                bgcolor: 'rgba(255, 255, 255, 0.05)',
+                                border: '1px solid rgba(255, 255, 255, 0.1)'
+                            }}>
+                                <LogoutIcon sx={{ fontSize: 20 }} />
+                            </Box>
+                        </ListItemIcon>
                         <ListItemText
                             primary="Logout"
-                            primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500 } }}
+                            primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500, color: 'text.primary' } }}
                         />
                     </ListItemButton>
                 </ListItem>
@@ -166,7 +252,7 @@ const MainLayout: React.FC = () => {
                     </IconButton>
 
                     <Typography variant="h5" noWrap component="div" sx={{ fontWeight: 'bold', color: 'text.primary', mr: 4, letterSpacing: '1px' }}>
-                        CORONA
+                        {import.meta.env.VITE_APPLICATION_TITLE}
                     </Typography>
 
                     {/* Top Nav Links */}
@@ -215,14 +301,15 @@ const MainLayout: React.FC = () => {
                 {drawer}
             </Drawer>
 
-            {/* Main Content Area */}
             <Box
                 component="main"
                 sx={{
                     flexGrow: 1,
                     p: 3,
-                    backgroundColor: 'background.default',
+                    display: 'flex',
+                    flexDirection: 'column',
                     minHeight: '100vh',
+                    backgroundColor: 'background.default',
                     transition: (theme) => theme.transitions.create('margin', {
                         easing: theme.transitions.easing.sharp,
                         duration: theme.transitions.duration.leavingScreen,
@@ -230,7 +317,27 @@ const MainLayout: React.FC = () => {
                 }}
             >
                 <Toolbar />
-                <Outlet />
+                <Box sx={{ flexGrow: 1 }}>
+                    <Outlet />
+                </Box>
+                <Box
+                    component="footer"
+                    sx={{
+                        py: 2,
+                        mt: 4,
+                        borderTop: '1px solid #2c2e33',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Typography variant="caption" color="text.secondary">
+                        Copyright © 2022-2026. All rights reserved.
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                        FG Solutions - vers. {import.meta.env.VITE_APP_VERSION}
+                    </Typography>
+                </Box>
             </Box>
         </Box>
     );
