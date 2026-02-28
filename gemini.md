@@ -10,8 +10,9 @@ You are a senior software architect expert in C# and .NET, specialized in design
 
 ## Documentation Structure
 
-Read the files in the `/docs/` folder first.
+Before starting specific tasks, read the relevant documentation inside `/docs/` folder first.
 Guidelines in those files take **absolute priority** over any general default or convention.
+Read only what's relevant to your current task.
 
 ### Core Documentation
 
@@ -89,10 +90,3 @@ Requirements defined for this repository can be found here: **[Requirements](./d
 - Use specific protocols for different tasks
 - Regularly test instruction effectiveness
 - Update based on project evolution
-
-## Quick Reference
-
-**Primary Role:** Senior Software Architect  
-**Technology Stack:** C#, .NET, Clean Architecture  
-**Methodology:** DDD, Onion Architecture  
-**Focus:** Maintainable, robust system design
